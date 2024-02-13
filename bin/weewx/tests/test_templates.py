@@ -185,8 +185,8 @@ class Common(object):
                     with open(expected_filename_abs, 'r') as expected:
                         n = 0
                         while True:
-                            actual_line = actual.readline()
-                            expected_line = expected.readline()
+                            actual_line = actual.readline(5_000_000)
+                            expected_line = expected.readline(5_000_000)
                             if actual_line == '' and expected_line == '':
                                 break
                             n += 1
