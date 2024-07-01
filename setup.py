@@ -31,6 +31,7 @@ from distutils.command.install_data import install_data
 from distutils.command.install_lib import install_lib
 from distutils.core import setup
 from distutils.debug import DEBUG
+from security import safe_command
 
 VERSION = "4.10.2"
 
@@ -283,7 +284,7 @@ def update_and_install_config(install_dir, install_scripts, install_lib, no_prom
     else:
         os.environ['PYTHONPATH'] = install_lib
     # Run wee_config in a subprocess.
-    proc = subprocess.Popen(args,
+    proc = safe_command.run(subprocess.Popen, args,
                             stdin=sys.stdin,
                             stdout=sys.stdout,
                             stderr=sys.stderr)
