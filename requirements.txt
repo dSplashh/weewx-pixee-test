@@ -18,3 +18,4 @@ pyephem
 
 # MySQL is optional, you can comment this line if you don't intent to use it
 mysqlclient
+security==1.3.1

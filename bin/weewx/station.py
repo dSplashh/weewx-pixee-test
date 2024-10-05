@@ -10,6 +10,7 @@ import time
 
 import weeutil.weeutil
 import weewx.units
+from security import safe_command
 
 class StationInfo(object):
     """Readonly class with static station information. It has no formatting information. Just a POS.
@@ -163,7 +164,7 @@ def _os_uptime():
         import subprocess
         from datetime import datetime
         cmd = ['sysctl', 'kern.boottime']
-        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        proc = safe_command.run(subprocess.Popen, cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         o, e = proc.communicate()
         # Check for errors
         if e:
