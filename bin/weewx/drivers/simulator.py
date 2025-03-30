@@ -9,11 +9,11 @@ from __future__ import with_statement
 from __future__ import absolute_import
 from __future__ import print_function
 import math
-import random
 import time
 
 import weewx.drivers
 import weeutil.weeutil
+import secrets
 
 DRIVER_NAME = 'Simulator'
 DRIVER_VERSION = "3.3"
@@ -283,7 +283,7 @@ class BatteryStatus(object):
         if chance_of_failure is None:
             chance_of_failure = 0.0005 # about once every 30 minutes
         if min_recovery_time is None:
-            min_recovery_time = random.randint(300, 1800) # 5 to 15 minutes
+            min_recovery_time = secrets.SystemRandom().randint(300, 1800) # 5 to 15 minutes
         self.chance_of_failure = chance_of_failure
         self.min_recovery_time = min_recovery_time
         self.state = 0
@@ -296,7 +296,7 @@ class BatteryStatus(object):
                 self.state = 0
         else:
             # see if we need a failure
-            if random.random() < self.chance_of_failure:
+            if secrets.SystemRandom().random() < self.chance_of_failure:
                 self.state = 1
                 self.fail_ts = time_ts
         return self.state
@@ -314,7 +314,7 @@ class BatteryVoltage(object):
         self.variance = max_variance
 
     def value_at(self, time_ts):
-        return self.nominal + self.variance * random.random() * random.randint(-1, 1)
+        return self.nominal + self.variance * secrets.SystemRandom().random() * secrets.SystemRandom().randint(-1, 1)
 
 
 class SignalStrength(object):
@@ -324,10 +324,10 @@ class SignalStrength(object):
         self.minval = minval
         self.maxval = maxval
         self.max_variance = 0.1 * (self.maxval - self.minval)
-        self.value = self.minval + random.random() * (self.maxval - self.minval)
+        self.value = self.minval + secrets.SystemRandom().random() * (self.maxval - self.minval)
 
     def value_at(self, time_ts):
-        newval = self.value + self.max_variance * random.random() * random.randint(-1, 1)
+        newval = self.value + self.max_variance * secrets.SystemRandom().random() * secrets.SystemRandom().randint(-1, 1)
         newval = max(self.minval, newval)
         newval = min(self.maxval, newval)
         self.value = newval
