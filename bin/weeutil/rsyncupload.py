@@ -17,6 +17,7 @@ import os
 import subprocess
 import sys
 import time
+from security import safe_command
 
 log = logging.getLogger(__name__)
 
@@ -105,7 +106,7 @@ class RsyncUpload(object):
 
         try:
             log.debug("rsyncupload: cmd: [%s]" % cmd)
-            rsynccmd = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            rsynccmd = safe_command.run(subprocess.Popen, cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
             stdout = rsynccmd.communicate()[0]
             stroutput = stdout.decode("utf-8").strip()
