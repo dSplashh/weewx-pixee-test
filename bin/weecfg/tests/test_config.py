@@ -101,13 +101,13 @@ class LineTest(unittest.TestCase):
             with open(expected, 'rb') as fd_expected:
                 N = 0
                 for expected in fd_expected:
-                    actual = fd_actual.readline()
+                    actual = fd_actual.readline(5_000_000)
                     N += 1
                     self.assertEqual(actual.strip(), expected.strip(),
                                      "[%d] '%s' vs '%s'" % (N, actual, expected))
 
                 # Make sure there are no extra lines in the updated config:
-                more = fd_actual.readline()
+                more = fd_actual.readline(5_000_000)
                 self.assertEqual(more, b'')
 
 
